@@ -1,0 +1,91 @@
+//the program supervises a parking lot, checking the vancancy, the vehicles currently in the lot
+//Also the fees to be paid by the customer according to the time they stay in the lot.
+#include <iostream>
+using namespace std;
+class vehicle
+{
+protected:
+    int plate_no;
+    int capacity;
+    int count=0;
+public:
+    vehicle(){}
+    vehicle(int c)
+    {
+        capacity = c;
+    }
+    void get()
+    {
+        cout << "Enter plate number: ";
+        cin >> plate_no;
+    }
+    void operator ++(int d)
+    {
+        count++;
+    }
+    void operator --(int d)
+    {
+        count--;
+    }
+    template<typename T>void fee()
+    {
+        cout << "The rent is 100 per hour " << endl;
+        T n;
+        cout << "Enter the time you require: ";
+        cin >> n;
+        T f = n * 100;
+        cout << "Amount to be paid: " << f << endl;
+    }
+};
+class derived :public vehicle
+{
+public:
+    derived() { };
+    void display()
+    {
+        cout << "Currently" << endl;
+        cout << "Total capacity of parking lot: " << capacity - count<<endl;
+        cout << "Vehicles currently in the lot: " << count<<endl;
+    }
+    void check()
+    {
+        if (capacity - count == 0)
+            cout << "No vacancy available" << endl;
+        else
+            cout << "Vancancy available" << "\n" << "Current vacancy: " << capacity - count << endl;
+    }
+};
+int main()
+{
+    derived v;
+    vehicle(100);
+    int ch;
+    char a;
+    do
+    {
+        cout << "Enter:\n 1 to enter a vehicle into the lot\n2 to check vacancy in the lot\n3 to display details\n4 to check the fee to be paid at checkout" << endl;
+        cin >> ch;
+        switch (ch)
+        {
+        case 1:
+            v.get();
+            v++;
+            break;
+        case 2:
+            v.check();
+            break;
+        case 3:
+            v.display();
+            break;
+        case 4:
+            v.fee<float>();
+            v--;
+            break;
+        default:
+            cout << "Invalid input";
+            break;
+        }
+        cout << "Do you want to continue?(Y/N)" << endl;
+        cin >> a;
+    } while (a == 'y' || a == 'Y');
+}
